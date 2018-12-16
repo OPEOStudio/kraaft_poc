@@ -1,7 +1,7 @@
 
 zello:
-  network: # Your account name (<network>.zellowork.com)
-  channel: # The Zello channel you listen to
+  network: kraaft # Your account name (<network>.zellowork.com)
+  channel: test-poc # The Zello channel to listen to
   auth:
     # More info here: https://github.com/zelloptt/zello-channel-api/blob/master/AUTH.md
     dev_token: # Your Sample development token

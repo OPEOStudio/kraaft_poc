@@ -1,0 +1,4 @@
+
+google_speech:
+  # BCP-47 language code, e.g. en-US
+  language: fr-FR

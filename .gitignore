@@ -20,6 +20,9 @@ coverage
 config/local*
 !config/local.example.yml
 
+# Credentials
+.credentials/**/*
+
 # Dependency directory
 node_modules
 

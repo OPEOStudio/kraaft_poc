@@ -7,7 +7,7 @@ const logger = createLogger({
   format: combine(
     timestamp(),
     prettyPrint(),
-    printf(({ timestamp, level, message }) => `${timestamp} - ${level.toUpperCase()} - ${message}`)
+    printf(({ timestamp, level, message }) => `${timestamp} - ${level.toUpperCase()} - ${message}`),
   ),
   transports: [
     new transports.Console(),

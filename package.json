@@ -4,15 +4,17 @@
   "main": "src/server.ts",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/server.ts",
+    "start": "yarn run compile && node dist/server.js",
+    "start:dev": "ts-node src/server.ts",
     "dev": "nodemon",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "compile": "tsc",
-    "build": "yarn run compile && yarn run lint",
-    "test": "jest --forceExit --coverage --verbose"
+    "build": "yarn run compile && yarn run test && yarn run lint",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/config": "^0.0.34",
+    "@types/date-fns": "^2.6.0",
     "@types/jest": "^23.3.10",
     "@types/lodash": "^4.14.119",
     "@types/node": "^10.12.15",
@@ -27,8 +29,10 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "@google-cloud/speech": "^2.1.1",
     "config": "^3.0.0",
-    "lodash-es": "^4.17.11",
+    "date-fns": "^1.30.1",
+    "lodash": "^4.17.11",
     "websocket": "^1.0.28",
     "winston": "^3.1.0"
   }
