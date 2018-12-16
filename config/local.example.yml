@@ -1,0 +1,14 @@
+
+zello:
+  network: # Your account name (<network>.zellowork.com)
+  channel: # The Zello channel you listen to
+  auth:
+    # More info here: https://github.com/zelloptt/zello-channel-api/blob/master/AUTH.md
+    dev_token: # Your Sample development token
+    issuer: # Issuer
+    private_key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCj6e7VKBrKb17d
+      ...
+      awstJOhSGCsYezIi7Thaajcee4pm0VT/cEJxB4QzMKilAys07mXq/xPvOmx1P9oM
+      -----END PRIVATE KEY-----
