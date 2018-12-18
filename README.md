@@ -3,6 +3,17 @@
 
 ## Installation
 
+### Prerequisites
+
+ * [NodeJS](https://nodejs.org/)
+ * [Yarn](https://yarnpkg.com/en/docs/install)
+
+### Install dependencies
+
+    yarn install
+
+## Configuration
+
 Copy `./config/local.example.yml` to `./config/local.yml`
 
 ### Zello Credentials
@@ -15,10 +26,6 @@ Copy `./config/local.example.yml` to `./config/local.yml`
 
  * Generate a key following this [guide](https://cloud.google.com/docs/authentication/getting-started)
  * Copy the downloaded key to the path <PROJECT_DIR>/.credentials/gcp.json
-
-### Install dependencies
-
-    yarn install
 
 ## Run
 
