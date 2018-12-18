@@ -39,8 +39,7 @@ class Ogg implements OggProcessor {
 
   getIDHeader(): Buffer {
     const data = Buffer.alloc(19)
-    data.writeUInt32LE(1937076303, 0) // Magic Signature 'Opus'
-    data.writeUInt32LE(1684104520, 4) // Magic Signature 'Head'
+    data.write('OpusHead', 0, 8, 'ASCII') // Magic Signature
     data.writeUInt8(1, 8) // Version
     data.writeUInt8(1, 9) // Channel count
     data.writeUInt16LE(0, 10) // pre-skip, don't need to skip any value
@@ -52,8 +51,7 @@ class Ogg implements OggProcessor {
 
   getCommentHeader(): Buffer {
     const data = Buffer.alloc(20)
-    data.writeUInt32LE(1937076303, 0) // Magic Signature 'Opus'
-    data.writeUInt32LE(1936154964, 4) // Magic Signature 'Tags'
+    data.write('OpusTags', 0, 8, 'ASCII') // Magic Signature
     data.writeUInt32LE(4, 8) // Vendor Length
     data.writeUInt32LE(1633837924, 12) // Vendor name 'abcd'
     data.writeUInt32LE(0, 16) // User Comment List Length
@@ -67,10 +65,9 @@ class Ogg implements OggProcessor {
     const page = Buffer.alloc(27 + segmentTable.length + segmentData.length)
     segmentTable.writeUInt8(segmentData.length, 0)
 
-    page.writeUInt32LE(1399285583, 0) // page headers starts with 'OggS'
+    page.write('OggS', 0, 4, 'ASCII') // page headers starts with 'OggS'
     page.writeUInt8(0, 4) // Version
     page.writeUInt8(headerType, 5) // 1 = continuation, 2 = beginning of stream, 4 = end of stream
-    // page.writeInt32LE(-1, 6) // granuale position -1 i.e single packet per page. storing into bytes.
 
     // Granule position: More info here: https://tools.ietf.org/html/rfc7845.html#section-4
     const isHeaderPage = index < 2
