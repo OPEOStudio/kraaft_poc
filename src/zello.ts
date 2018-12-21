@@ -2,20 +2,30 @@ import { client as WebSocketClient, connection as WsConnection, IMessage as WsMe
 import logger from './logger'
 import { camelCaseKeys } from './utils/objectKeys'
 import { EventEmitter } from 'events'
+import config from 'config'
 
 // Zello API Documentation: https://github.com/zelloptt/zello-channel-api/blob/master/API.md
 
-export function startZelloApiClient(config: ZelloConfig): Zello {
-  const client = new Zello(config)
-  client.start()
-  return client
+const authToken = config.get<string>('zello.auth.dev_token')
+const network = config.get<string>('zello.network')
+const channel = config.get<string>('zello.channel')
+
+export function startZelloApiClient(messageHandler: (msg: MessageStream) => void): Zello {
+  return new Zello({
+    authToken,
+    network,
+    channel,
+    onMessageStream: messageHandler
+  })
 }
 
 class Zello {
 
   private currentStream: MessageStreamImpl | undefined
 
-  constructor(private config: ZelloConfig) {}
+  constructor(private config: ZelloConfig) {
+    this.start()
+  }
 
   start() {
     logger.info('Start Zello API Client...')
