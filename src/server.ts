@@ -3,6 +3,8 @@ import { startZelloApiClient, MessageStream } from './zello'
 import logger from './logger'
 import { createOggProcessor } from './utils/ogg'
 import { speechToText } from './speechToText'
+import { messageToIssue } from './messageToIssue'
+import { createIssue } from './trello'
 
 startZelloApiClient({
   authToken: config.get<string>('zello.auth.dev_token'),
@@ -16,18 +18,26 @@ startZelloApiClient({
     })
     message
       .on('data', data => oggProcessor.push(data))
-      .on('end', () => {
+      .on('end', async () => {
         logger.info(`End of Zello message [${message.streamId}].`)
 
-        const oggOpusByteArray = oggProcessor.process()
+        try {
+          const oggOpusByteArray = oggProcessor.process()
 
-        speechToText(oggOpusByteArray, { sampleRate: message.codecInfo.sampleRate })
-          .then(transcription => {
-            logger.info(`Message [${message.streamId}] transcription: ${transcription}`)
+          const transcription = await speechToText(oggOpusByteArray, { sampleRate: message.codecInfo.sampleRate })
+
+          logger.info(`Message [${message.streamId}] transcription: ${transcription}`)
+
+          const issue = messageToIssue({
+            id: message.streamId.toString(),
+            from: message.from,
+            content: transcription
           })
-          .catch(err => {
-            logger.error(`Google Speech error: ${err}`)
-          })
+
+          await createIssue(issue).then(id => logger.info(`Issue created in Trello [${id}]`))
+        } catch (e) {
+          logger.error(e)
+        }
       })
   },
 })

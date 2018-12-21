@@ -12,3 +12,9 @@ zello:
       ...
       awstJOhSGCsYezIi7Thaajcee4pm0VT/cEJxB4QzMKilAys07mXq/xPvOmx1P9oM
       -----END PRIVATE KEY-----
+
+trello:
+  # More info here: https://developers.trello.com/docs/api-introduction#section--a-name-auth-authentication-and-authorization-a-
+  api_key: # Your Trello API Key.
+  api_token: # Your Trello API Token
+  list_id: # Id of the list (a column in a board) in which the cards are created

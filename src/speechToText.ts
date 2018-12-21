@@ -10,13 +10,15 @@ export type SpeechToTextOptions = {
   sampleRate: number,
 }
 
+const language = config.get<string>('google_speech.language')
+
 export function speechToText(audioContent: Buffer, opts: SpeechToTextOptions): Promise<string> {
   return client
     .recognize({
       config: {
         encoding: 'OGG_OPUS',
         sampleRateHertz: opts.sampleRate,
-        languageCode: config.get<string>('google_speech.language'),
+        languageCode: language,
       },
       audio: {
         content: audioContent.toString('base64'),
@@ -27,4 +29,5 @@ export function speechToText(audioContent: Buffer, opts: SpeechToTextOptions): P
         .map(result => result.alternatives[0].transcript)
         .join('\n')
     })
+    .catch(err => Promise.reject(`Speech to text failure: ${err}`))
 }
