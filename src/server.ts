@@ -34,7 +34,9 @@ startZelloApiClient({
             content: transcription
           })
 
-          await createIssue(issue).then(id => logger.info(`Issue created in Trello [${id}]`))
+          const id = await createIssue(issue)
+
+          logger.info(`Issue created in Trello [${id}]`)
         } catch (e) {
           logger.error(e)
         }
