@@ -6,7 +6,6 @@
   "scripts": {
     "start": "yarn run compile && node dist/server.js",
     "start:dev": "ts-node src/server.ts",
-    "test:trello": "ts-node src/testTrello.ts",
     "dev": "nodemon",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "compile": "tsc",
