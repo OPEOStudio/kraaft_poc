@@ -1,12 +1,8 @@
 import config from 'config'
-import { SpeechClient } from '@google-cloud/speech'
 import { startZelloApiClient, MessageStream } from './zelloApiClient'
 import logger from './logger'
 import { createOggProcessor } from './utils/ogg'
-
-const client = new SpeechClient({
-  keyFilename: `${process.cwd()}/.credentials/gcp.json`,
-})
+import { speechToText } from './speechToText'
 
 startZelloApiClient({
   authToken: config.get<string>('zello.auth.dev_token'),
@@ -25,25 +21,13 @@ startZelloApiClient({
 
         const oggOpusByteArray = oggProcessor.process()
 
-        client
-          .recognize({
-            config: {
-              encoding: 'OGG_OPUS',
-              sampleRateHertz: message.codecInfo.sampleRate,
-              languageCode: config.get<string>('google_speech.language'),
-            },
-            audio: {
-              content: oggOpusByteArray.toString('base64'),
-            },
-          })
-          .then(data => {
-            const response = data[0];
-            const transcription = response.results
-              .map(result => result.alternatives[0].transcript)
-              .join('\n')
+        speechToText(oggOpusByteArray, { sampleRate: message.codecInfo.sampleRate })
+          .then(transcription => {
             logger.info(`Message [${message.streamId}] transcription: ${transcription}`)
           })
-          .catch(err => logger.error(`Google Speech error: ${err}`))
+          .catch(err => {
+            logger.error(`Google Speech error: ${err}`)
+          })
       })
   },
 })
