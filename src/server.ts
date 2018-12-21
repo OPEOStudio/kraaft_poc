@@ -1,5 +1,5 @@
 import config from 'config'
-import { startZelloApiClient, MessageStream } from './zelloApiClient'
+import { startZelloApiClient, MessageStream } from './zello'
 import logger from './logger'
 import { createOggProcessor } from './utils/ogg'
 import { speechToText } from './speechToText'

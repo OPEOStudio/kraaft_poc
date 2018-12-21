@@ -5,13 +5,13 @@ import { EventEmitter } from 'events'
 
 // Zello API Documentation: https://github.com/zelloptt/zello-channel-api/blob/master/API.md
 
-export function startZelloApiClient(config: ZelloConfig): ZelloApiClient {
-  const client = new ZelloApiClient(config)
+export function startZelloApiClient(config: ZelloConfig): Zello {
+  const client = new Zello(config)
   client.start()
   return client
 }
 
-class ZelloApiClient {
+class Zello {
 
   private currentStream: MessageStreamImpl | undefined
 
