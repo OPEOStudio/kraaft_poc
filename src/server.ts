@@ -34,9 +34,12 @@ startZelloApiClient({
             content: transcription
           })
 
-          const id = await createIssue(issue)
-
-          logger.info(`Issue created in Trello [${id}]`)
+          if (issue) {
+            const id = await createIssue(issue)
+            logger.info(`Issue created in Trello [${id}]`)
+          } else {
+            logger.info(`Message [${message.streamId}] ignored`)
+          }
         } catch (e) {
           logger.error(e)
         }
